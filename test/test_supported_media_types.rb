@@ -1,4 +1,4 @@
-require 'test/test_helper'
+require_relative 'test_helper'
 
 App = lambda {|env| [200, {'Content-Type' => 'text/html'}, ['content']] }
 SMT = Rack::SupportedMediaTypes
@@ -19,7 +19,7 @@ response = Rack::MockRequest.new(app).get('/', 'HTTP_ACCEPT' => 'text/html')
 assert { response.status == 200 }
 
 
-# test: requested type is assumed to be highest ranking type in Accept header's list
+# test: will fall back to next lowest ranking media type if preferred one is not supported
 app = SMT.new(App, %w( text/html ))
 client = Rack::MockRequest.new(app)
 
@@ -27,7 +27,7 @@ response = client.get('/', 'HTTP_ACCEPT' => 'text/html,application/xml')
 assert { response.status == 200 }
 
 response = client.get('/', 'HTTP_ACCEPT' => 'text/html;q=0.8,application/xml;q=0.9')
-assert { response.status == 406 }
+assert { response.status == 200 }
 
 
 # test: matches wildcard media-range subtypes
