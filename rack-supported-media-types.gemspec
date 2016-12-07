@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name                = 'rack-supported-media-types'
-  s.version             = "0.9.4"
+  s.version             = "0.10.0"
   s.summary             = "Rack middleware to specify an app's supported media types."
   s.description         = "Rack middleware to specify an app's supported media types. Returns '406 Not Acceptable' status when unsuported type is requested."
   s.author              = "mynyml"
